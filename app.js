@@ -21,7 +21,6 @@ app.get('/', function (req, res) {
   });
 });
 app.post('/', function (req, res) {
-    console.log(req.body);
     if(req.body.auth && req.body.info) {
         var user = {auth: req.body.auth, info: req.body.info};
         var query = {"info.email": req.body.info.email};
@@ -48,7 +47,9 @@ var server = app.listen(3000, function () {
 
 var createUserSchema = function () {
     var userSchema = mongoose.Schema({
-        _id: Number
+        _id: Number,
+        email: String,
+        data: Object
     });
     Models.User = mongoose.model('User', userSchema);
 };
