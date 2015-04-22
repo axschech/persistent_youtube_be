@@ -10,7 +10,7 @@ app.get('/', function (req, res) {
   var code = req.query.code;
   console.log(code);
   Models.User.find({
-    'info.email': code
+    'email': code
   },
    function (err, data) {
     if (data === null) {
@@ -21,11 +21,13 @@ app.get('/', function (req, res) {
   });
 });
 app.post('/', function (req, res) {
-    if(req.body.auth && req.body.info) {
-        var user = {auth: req.body.auth, info: req.body.info};
-        var query = {"info.email": req.body.info.email};
+  console.log(req.body);
+    if(req.body.data && req.body.email) {
+        var insert = {email: req.body.email, data: req.body.data};
+        console.log(insert);
+        var query = {"email": req.body.email};
 
-        Models.User.findOneAndUpdate(query, user, {upsert: true}, function(err, user){
+        Models.User.findOneAndUpdate(query, insert, {upsert: true}, function(err, user){
             console.log(err);
             console.log(user);
         });
@@ -47,7 +49,6 @@ var server = app.listen(3000, function () {
 
 var createUserSchema = function () {
     var userSchema = mongoose.Schema({
-        _id: Number,
         email: String,
         data: Object
     });
